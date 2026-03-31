@@ -1,4 +1,5 @@
 from abc import ABC
+from typing import Any
 
 
 class Card(ABC):
@@ -9,9 +10,18 @@ class Card(ABC):
         self.__name = name
         self.__cost = cost
         self.__rarity = rarity
+        self.__game_state = {}
 
     def play(self, game_state: dict) -> dict:
-        pass
+        mandatory_keys: dict[str, Any] = {
+            "health": int,
+            "battlefield": list[str],
+            "mana_used": int,
+        }
+        for key, value in game_state.items():
+            if key not in mandatory_keys:
+                raise ValueError("There is unknown key")
+            self.__game_state.update({key: value})
 
     def _ensure_validate(self) -> None:
         if not all(
