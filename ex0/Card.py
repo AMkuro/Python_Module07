@@ -3,14 +3,11 @@ from typing import Any
 
 
 class Card(ABC):
-    class InstanceRule(Exception):
-        pass
-
     def __init__(self, name: str, cost: int, rarity: str) -> None:
-        self.__name = name
-        self.__cost = cost
-        self.__rarity = rarity
-        self.__game_state = {}
+        self.__name: str = name
+        self.__cost: int = cost
+        self.__rarity: str = rarity
+        self.__game_state: dict[str, Any] = {}
 
     def play(self, game_state: dict) -> dict:
         mandatory_keys: dict[str, Any] = {
@@ -22,16 +19,26 @@ class Card(ABC):
             if key not in mandatory_keys:
                 raise ValueError("There is unknown key")
             self.__game_state.update({key: value})
+        return self.__game_state
 
     def _ensure_validate(self) -> None:
-        if not all(
-            isinstance(value, str) for value in [self.__name, self.__rarity]
-        ):
-            raise ValueError(
-                "name and rarity must be an str object, got {type("
-            )
-        if not isinstance(self.__cost, int):
-            raise ValueError("cost have to be int")
+        self._ensure_numeric_validate(self.__cost)
+        self._ensure_text_validate(self.__name, self.__rarity)
+
+    def _ensure_text_validate(self, *test_strs: str) -> None:
+        for value in test_strs:
+            if not isinstance(value, str):
+                raise ValueError(
+                    f"{value=} must be an str object, got {type(value)}"
+                )
+
+    def _ensure_numeric_validate(self, *test_num: int | float) -> None:
+        for value in test_num:
+            if not isinstance(value, (int, float)):
+                raise ValueError(
+                    f"{value=} must be an int or"
+                    f" float object, got {type(value)}"
+                )
 
     def get_card_info(self) -> dict:
         pass
