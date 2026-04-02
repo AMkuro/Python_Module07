@@ -10,7 +10,18 @@ class Card(ABC):
 
     @abstractmethod
     def play(self, game_state: dict) -> dict:
-        pass
+        available_mana = game_state.get("mana", 0)
+        if not self.is_playable(available_mana):
+            raise ValueError(
+                f"Not enough mana to play {self._name}"
+                f" (cost: {self._cost}, available: {available_mana})"
+            )
+        self.result_dict: dict[str, Any] = {}
+        result_dict = {
+            "card_played": self._name,
+            "mana_used": self._cost,
+        }
+        return result_dict
 
     def get_card_info(self) -> dict[str, Any]:
         return {

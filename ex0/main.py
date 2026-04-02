@@ -2,10 +2,8 @@ from ex0.CreatureCard import CreatureCard
 
 
 def main() -> None:
-    print("=== DataDeck Card Foundation ===")
-    print()
-    print("Testing Abstract Base Class Design:")
-    print()
+    print("\n=== DataDeck Card Foundation ===\n")
+    print("Testing Abstract Base Class Design:\n")
 
     fire_dragon = CreatureCard("Fire Dragon", 5, "Legendary", 7, 5)
     goblin_warrior = CreatureCard("Goblin Warrior", 1, "Common", 2, 3)
