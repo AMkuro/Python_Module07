@@ -20,12 +20,12 @@ class ArtifactCard(Card):
             "effect": self._effect,
         }
 
-    def play(self, game_state: dict) -> dict:
+    def play(self, game_state: dict) -> dict[str, Any]:
         result_dict = super().play(game_state)
         result_dict["effect"] = f"Permanent: {self._effect}"
         return result_dict
 
-    def activate_ability(self) -> dict:
+    def activate_ability(self) -> dict[str, Any]:
         if self._durability <= 0:
             return {"activated": False, "reason": "Artifact destroyed"}
         self._durability -= 1

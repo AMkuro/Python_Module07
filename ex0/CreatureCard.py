@@ -28,7 +28,7 @@ class CreatureCard(Card):
             "health": self._health,
         }
 
-    def play(self, game_state: dict) -> dict:
+    def play(self, game_state: dict) -> dict[str, Any]:
         result_dict = super().play(game_state)
         if result_dict is None:
             result_dict: dict[str, Any] = {}
@@ -36,7 +36,7 @@ class CreatureCard(Card):
 
         return result_dict
 
-    def attack_target(self, target: "Card") -> dict:
+    def attack_target(self, target: "Card") -> dict[str, Any]:
         target_info = target.get_card_info()
         return {
             "attacker": self._name,

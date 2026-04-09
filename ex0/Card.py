@@ -9,7 +9,7 @@ class Card(ABC):
         self._rarity: str = rarity
 
     @abstractmethod
-    def play(self, game_state: dict) -> dict:
+    def play(self, game_state: dict) -> dict[str, Any]:
         available_mana = game_state.get("mana", 0)
         if not self.is_playable(available_mana):
             raise ValueError(
