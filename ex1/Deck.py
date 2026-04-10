@@ -41,13 +41,17 @@ class Deck:
                 "avg_cost": 0.0,
             }
         creatures = sum(
-            1 for c in self._cards if c.get_card_info().get("type") == "Creature"
+            1
+            for c in self._cards
+            if c.get_card_info().get("type") == "Creature"
         )
         spells = sum(
             1 for c in self._cards if c.get_card_info().get("type") == "Spell"
         )
         artifacts = sum(
-            1 for c in self._cards if c.get_card_info().get("type") == "Artifact"
+            1
+            for c in self._cards
+            if c.get_card_info().get("type") == "Artifact"
         )
         avg_cost = sum(c.get_card_info()["cost"] for c in self._cards) / total
         return {

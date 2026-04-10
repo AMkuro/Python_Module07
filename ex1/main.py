@@ -1,7 +1,8 @@
 from ex0.CreatureCard import CreatureCard
+from ex0.Card import Rarity
 from ex1.ArtifactCard import ArtifactCard
 from ex1.Deck import Deck
-from ex1.SpellCard import SpellCard
+from ex1.SpellCard import SpellCard, EffectType
 
 
 def main() -> None:
@@ -9,9 +10,15 @@ def main() -> None:
     print("Building deck with different card types...")
 
     deck = Deck()
-    fire_dragon = CreatureCard("Fire Dragon", 5, "Legendary", 7, 5)
-    lightning_bolt = SpellCard("Lightning Bolt", 3, "Common", "damage")
-    mana_crystal = ArtifactCard("Mana Crystal", 4, "Rare", 3, "+1 mana per turn")
+    fire_dragon = CreatureCard(
+        "Fire Dragon", 5, Rarity.LEGENDARY, 7, 5
+    )
+    lightning_bolt = SpellCard(
+        "Lightning Bolt", 3, Rarity.COMMON, EffectType.DAMAGE
+    )
+    mana_crystal = ArtifactCard(
+        "Mana Crystal", 4, Rarity.RARE, 3, "+1 mana per turn"
+    )
 
     deck.add_card(lightning_bolt)
     deck.add_card(mana_crystal)

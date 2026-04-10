@@ -1,11 +1,16 @@
 from typing import Any
 
-from ex0.Card import Card
+from ex0.Card import Card, Rarity
 
 
 class ArtifactCard(Card):
     def __init__(
-        self, name: str, cost: int, rarity: str, durability: int, effect: str
+        self,
+        name: str,
+        cost: int,
+        rarity: Rarity,
+        durability: int,
+        effect: str,
     ) -> None:
         super().__init__(name, cost, rarity)
         self._durability: int = durability
@@ -20,9 +25,11 @@ class ArtifactCard(Card):
             "effect": self._effect,
         }
 
-    def play(self, game_state: dict) -> dict[str, Any]:
-        result_dict = super().play(game_state)
-        result_dict["effect"] = f"Permanent: {self._effect}"
+    def play(self, game_state: dict[str, Any]) -> dict[str, Any]:
+        result_dict: dict[str, Any] = super().play(game_state)
+        ability_info = self.activate_ability()
+        if ability_info["activated"]:
+            result_dict["effect"] = ability_info["description"]
         return result_dict
 
     def activate_ability(self) -> dict[str, Any]:
@@ -30,7 +37,7 @@ class ArtifactCard(Card):
             return {"activated": False, "reason": "Artifact destroyed"}
         self._durability -= 1
         return {
-            "artifact": self._name,
-            "effect": self._effect,
+            "activated": True,
+            "description": f"Permanent: {self._effect}",
             "durability_remaining": self._durability,
         }
