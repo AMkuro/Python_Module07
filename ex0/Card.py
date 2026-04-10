@@ -1,15 +1,23 @@
 from abc import ABC, abstractmethod
+from enum import Enum
 from typing import Any
 
 
+class Rarity(Enum):
+    COMMON = "Common"
+    UNCOMMON = "Uncommon"
+    RARE = "Rare"
+    LEGENDARY = "Legendary"
+
+
 class Card(ABC):
-    def __init__(self, name: str, cost: int, rarity: str) -> None:
+    def __init__(self, name: str, cost: int, rarity: Rarity) -> None:
         self._name: str = name
         self._cost: int = cost
-        self._rarity: str = rarity
+        self._rarity: Rarity = rarity
 
     @abstractmethod
-    def play(self, game_state: dict) -> dict[str, Any]:
+    def play(self, game_state: dict[str, Any]) -> dict[str, Any]:
         available_mana = game_state.get("mana", 0)
         if not self.is_playable(available_mana):
             raise ValueError(
@@ -17,7 +25,7 @@ class Card(ABC):
                 f" (cost: {self._cost}, available: {available_mana})"
             )
         self.result_dict: dict[str, Any] = {}
-        result_dict = {
+        result_dict: dict[str, Any] = {
             "card_played": self._name,
             "mana_used": self._cost,
         }
@@ -27,7 +35,7 @@ class Card(ABC):
         return {
             "name": self._name,
             "cost": self._cost,
-            "rarity": self._rarity,
+            "rarity": self._rarity.value,
         }
 
     def is_playable(self, available_mana: int) -> bool:
