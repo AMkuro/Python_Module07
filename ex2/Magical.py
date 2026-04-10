@@ -1,12 +1,24 @@
-from abc import ABC
+from abc import ABC, abstractmethod
+from typing import Any
+
+from ex0.Card import Card
 
 
 class Magical(ABC):
-    def cast_spell(self, spell_name: str, targets: list) -> dict:
+    def __init__(self, mana: int) -> None:
+        self._mana: int = mana
+        self._max_mana: int = mana
+
+    @abstractmethod
+    def cast_spell(
+        self, spell_name: str, targets: list[Card]
+    ) -> dict[str, Any]:
         pass
 
-    def channel_mana(self, amount: int) -> dict:
+    @abstractmethod
+    def channel_mana(self, amount: int) -> dict[str, Any]:
         pass
 
-    def get_magic_stats(self) -> dict:
+    @abstractmethod
+    def get_magic_stats(self) -> dict[str, Any]:
         pass
