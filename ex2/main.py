@@ -21,26 +21,34 @@ def main() -> None:
         rarity=Rarity.RARE,
         attack=5,
         health=4,
-        mana=6,
+        mana=8,
     )
 
     print("Combat phase:")
-    enemy = EliteCard(
-        name="Enemy",
+    enemy1 = EliteCard(
+        name="Enemy1",
         cost=4,
         rarity=Rarity.COMMON,
         attack=3,
         health=3,
         mana=2,
     )
-    attack_result = arcane_warrior.attack(enemy)
+    enemy2 = EliteCard(
+        name="Enemy2",
+        cost=3,
+        rarity=Rarity.COMMON,
+        attack=2,
+        health=2,
+        mana=1,
+    )
+    attack_result = arcane_warrior.attack(enemy1)
     print(f"Attack result: {attack_result}")
 
     defend_result = arcane_warrior.defend(2)
     print(f"Defense result: {defend_result}")
 
     print("\nMagic phase:")
-    spell_result = arcane_warrior.cast_spell("Fireball", [enemy])
+    spell_result = arcane_warrior.cast_spell("Fireball", [enemy1, enemy2])
     print(f"Spell cast: {spell_result}")
 
     mana_result = arcane_warrior.channel_mana(3)

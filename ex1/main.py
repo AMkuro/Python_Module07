@@ -17,7 +17,7 @@ def main() -> None:
         "Lightning Bolt", 3, Rarity.COMMON, EffectType.DAMAGE
     )
     mana_crystal = ArtifactCard(
-        "Mana Crystal", 4, Rarity.RARE, 3, "+1 mana per turn"
+        "Mana Crystal", 2, Rarity.RARE, 3, "+1 mana per turn"
     )
 
     deck.add_card(lightning_bolt)

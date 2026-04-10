@@ -21,31 +21,16 @@ class CreatureCard(Card):
 
     def get_card_info(self) -> dict[str, Any]:
         base = super().get_card_info()
-        rarity_bonus = self._get_rarity_bonus()
         return {
             **base,
             "type": "Creature",
             "attack": self._attack,
             "health": self._health,
-            "effective_attack": self._attack + rarity_bonus,
         }
-
-    def _get_rarity_bonus(self) -> int:
-        from ex0.Card import Rarity
-        bonus_map = {
-            Rarity.COMMON: 0,
-            Rarity.UNCOMMON: 1,
-            Rarity.RARE: 2,
-            Rarity.LEGENDARY: 3,
-        }
-        return bonus_map.get(self._rarity, 0)
 
     def play(self, game_state: dict[str, Any]) -> dict[str, Any]:
         result = super().play(game_state)
-        rarity_bonus = self._get_rarity_bonus()
-        result["effect"] = (
-            f"Creature summoned to battlefield (Rarity boost: +{rarity_bonus})"
-        )
+        result["effect"] = "Creature summoned to battlefield"
         return result
 
     def attack_target(self, target: Card) -> dict[str, Any]:

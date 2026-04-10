@@ -33,7 +33,7 @@ class EliteCard(Card, Combatable, Magical):
     def _select_combat_type_by_attack(attack: int) -> CombatType:
         if attack >= 8:
             return CombatType.RANGED
-        elif attack >= 5:
+        elif attack >= 6:
             return CombatType.MAGIC
         else:
             return CombatType.MELEE
@@ -95,7 +95,6 @@ class EliteCard(Card, Combatable, Magical):
         return {
             "caster": self._name,
             "spell": spell_name,
-            "success": True,
             "targets": target_names,
             "mana_used": mana_cost,
         }

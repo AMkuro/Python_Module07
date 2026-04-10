@@ -64,5 +64,4 @@ class GameEngine:
             "strategy_used": strategy_name,
             "total_damage": self._total_damage,
             "cards_created": self._cards_created,
-            "battlefield_units": len(self._battlefield),
         }

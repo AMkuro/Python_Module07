@@ -7,12 +7,13 @@ class TournamentPlatform:
     def __init__(self) -> None:
         self._cards: dict[str, TournamentCard] = {}
         self._matches_played: int = 0
+        self._type_counters: dict[str, int] = {}
 
     def register_card(self, card: TournamentCard) -> str:
-        card_id = (
-            card._name.lower().replace(" ", "_")
-            + f"_{len(self._cards) + 1:03d}"
-        )
+        last_word = card._name.split()[-1].lower()
+        count = self._type_counters.get(last_word, 0) + 1
+        self._type_counters[last_word] = count
+        card_id = f"{last_word}_{count:03d}"
         self._cards[card_id] = card
         return card_id
 

@@ -13,13 +13,14 @@ class TournamentCard(Card, Combatable, Rankable):
         rarity: Rarity,
         attack: int,
         health: int,
+        base_rating: int = 1200,
     ) -> None:
         Card.__init__(self, name, cost, rarity)
         Combatable.__init__(self, attack, health)
 
         self._wins: int = 0
         self._losses: int = 0
-        self._base_rating: int = 1200
+        self._base_rating: int = base_rating
 
     def play(self, game_state: dict[str, Any]) -> dict[str, Any]:
         base = super().play(game_state)

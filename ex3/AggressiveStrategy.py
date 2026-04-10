@@ -6,23 +6,31 @@ from ex3.GameStrategy import GameStrategy
 
 
 class AggressiveStrategy(GameStrategy):
+    _MANA_BUDGET: int = 5
+
     def execute_turn(
         self, hand: list[Any], battlefield: list[Any]
     ) -> dict[str, Any]:
         cards_played: list[str] = []
         mana_used: int = 0
-        targets_attacked: list[str] = []
         damage_dealt: int = 0
+        remaining_mana: int = self._MANA_BUDGET
 
         cards_only = [c for c in hand if isinstance(c, Card)]
         sorted_hand = sorted(cards_only, key=attrgetter("_cost"))
 
         for card in sorted_hand:
+            if card._cost > remaining_mana:
+                continue
             cards_played.append(card._name)
             mana_used += card._cost
+            remaining_mana -= card._cost
             if hasattr(card, "_attack"):
                 damage_dealt += card._attack
-                targets_attacked.append("Enemy Player")
+
+        targets_attacked: list[str] = (
+            ["Enemy Player"] if cards_played else []
+        )
 
         enemy_count = len(
             [c for c in battlefield if isinstance(c, Card)]
