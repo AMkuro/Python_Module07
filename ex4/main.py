@@ -45,8 +45,11 @@ def main() -> None:
 
     print("Tournament Leaderboard:")
     leaderboard = platform.get_leaderboard()
-    for rank, (name, rating, record) in enumerate(leaderboard, 1):
-        print(f"{rank}. {name} - Rating: {rating} ({record})")
+    for rank, (card_id, name, rating, record) in enumerate(
+        leaderboard, 1
+    ):
+        print(f"{rank}. {name} (ID: {card_id}) - "
+              f"Rating: {rating} ({record})")
 
     print("\nPlatform Report:")
     report = platform.generate_tournament_report()

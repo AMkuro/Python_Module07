@@ -25,7 +25,18 @@ class EliteCard(Card, Combatable, Magical):
         Card.__init__(self, name, cost, rarity)
         Combatable.__init__(self, attack, health)
         Magical.__init__(self, mana)
-        self._combat_type: CombatType = CombatType.MELEE
+        self._combat_type: CombatType = (
+            self._select_combat_type_by_attack(attack)
+        )
+
+    @staticmethod
+    def _select_combat_type_by_attack(attack: int) -> CombatType:
+        if attack >= 8:
+            return CombatType.RANGED
+        elif attack >= 5:
+            return CombatType.MAGIC
+        else:
+            return CombatType.MELEE
 
     def attack(self, target: Card) -> dict[str, Any]:
         return {
@@ -54,13 +65,16 @@ class EliteCard(Card, Combatable, Magical):
             "attack": self._attack,
             "health": self._health,
             "max_health": self._max_health,
+            "combat_type": self._combat_type.value,
         }
 
     def play(self, game_state: dict[str, Any]) -> dict[str, Any]:
         base: dict[str, Any] = super().play(game_state)
         return {
             **base,
-            "effect": f"Elite card {self._name} ready for combat and magic",
+            "effect": f"Elite card {self._name} "
+            f"({self._combat_type.value.capitalize()}) "
+            f"ready for combat and magic",
         }
 
     def cast_spell(

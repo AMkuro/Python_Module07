@@ -1,4 +1,4 @@
-from typing import Any, Union
+from typing import Any
 
 from ex0.Card import Card, Rarity
 from ex0.CreatureCard import CreatureCard
@@ -21,7 +21,7 @@ class FantasyCardFactory(CardFactory):
         }
 
     def create_creature(
-        self, name_or_power: Union[str, int, None] = None
+        self, name_or_power: str | int | None = None
     ) -> Card:
         if (
             isinstance(name_or_power, str)
@@ -35,16 +35,19 @@ class FantasyCardFactory(CardFactory):
                 attack=attack,
                 health=health,
             )
+        power_level = 5
+        if isinstance(name_or_power, int):
+            power_level = max(1, min(name_or_power, 10))
         return CreatureCard(
             name="Fire Dragon",
             cost=5,
             rarity=Rarity.RARE,
-            attack=7,
-            health=5,
+            attack=power_level,
+            health=power_level,
         )
 
     def create_spell(
-        self, name_or_power: Union[str, int, None] = None
+        self, name_or_power: str | int | None = None
     ) -> Card:
         if (
             isinstance(name_or_power, str)
@@ -57,15 +60,18 @@ class FantasyCardFactory(CardFactory):
                 rarity=Rarity.COMMON,
                 effect_type=effect_type,
             )
+        cost = 3
+        if isinstance(name_or_power, int):
+            cost = max(1, min(name_or_power, 10))
         return SpellCard(
             name="Fireball",
-            cost=3,
+            cost=cost,
             rarity=Rarity.COMMON,
             effect_type=EffectType.DAMAGE,
         )
 
     def create_artifact(
-        self, name_or_power: Union[str, int, None] = None
+        self, name_or_power: str | int | None = None
     ) -> Card:
         if (
             isinstance(name_or_power, str)
@@ -79,11 +85,14 @@ class FantasyCardFactory(CardFactory):
                 durability=durability,
                 effect=f"+1 {name_or_power.split('_')[0]}",
             )
+        durability = 5
+        if isinstance(name_or_power, int):
+            durability = max(1, min(name_or_power, 10))
         return ArtifactCard(
             name="Mana Ring",
             cost=2,
             rarity=Rarity.UNCOMMON,
-            durability=5,
+            durability=durability,
             effect="+1 mana per turn",
         )
 

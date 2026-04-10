@@ -49,14 +49,20 @@ class TournamentPlatform:
             "loser_rating": loser.calculate_rating(),
         }
 
-    def get_leaderboard(self) -> list[tuple[str, int, str]]:
-        leaderboard: list[tuple[str, int, str]] = []
+    def get_leaderboard(self) -> list[tuple[str, str, int, str]]:
+        leaderboard: list[tuple[str, str, int, str]] = []
         for card_id, card in self._cards.items():
             rank_info = card.get_rank_info()
             rating = rank_info["rating"]
             record = rank_info["record"]
-            leaderboard.append((card._name, rating, record))
-        return sorted(leaderboard, key=lambda x: x[1], reverse=True)
+            leaderboard.append((card_id, card._name, rating, record))
+
+        def sort_by_rating(
+            entry: tuple[str, str, int, str]
+        ) -> int:
+            return entry[2]
+
+        return sorted(leaderboard, key=sort_by_rating, reverse=True)
 
     def generate_tournament_report(self) -> dict[str, Any]:
         if not self._cards:

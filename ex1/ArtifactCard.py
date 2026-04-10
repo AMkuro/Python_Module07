@@ -14,6 +14,7 @@ class ArtifactCard(Card):
     ) -> None:
         super().__init__(name, cost, rarity)
         self._durability: int = durability
+        self._max_durability: int = durability
         self._effect: str = effect
 
     def get_card_info(self) -> dict[str, Any]:
@@ -22,6 +23,7 @@ class ArtifactCard(Card):
             **base,
             "type": "Artifact",
             "durability": self._durability,
+            "max_durability": self._max_durability,
             "effect": self._effect,
         }
 
@@ -36,8 +38,12 @@ class ArtifactCard(Card):
         if self._durability <= 0:
             return {"activated": False, "reason": "Artifact destroyed"}
         self._durability -= 1
+        durability_percent = int(
+            (self._durability / self._max_durability) * 100
+        )
         return {
             "activated": True,
             "description": f"Permanent: {self._effect}",
             "durability_remaining": self._durability,
+            "durability_percent": durability_percent,
         }

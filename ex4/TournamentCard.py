@@ -64,10 +64,17 @@ class TournamentCard(Card, Combatable, Rankable):
         return self._base_rating + win_bonus - loss_penalty
 
     def update_wins(self, wins: int) -> None:
-        self._wins += wins
+        if wins > 0:
+            self._wins += wins
+            health_boost = wins * 2
+            self._max_health = min(
+                self._max_health + health_boost,
+                self._max_health * 2,
+            )
 
     def update_losses(self, losses: int) -> None:
-        self._losses += losses
+        if losses > 0:
+            self._losses += losses
 
     def get_rank_info(self) -> dict[str, Any]:
         return {
