@@ -6,8 +6,8 @@ from ex0.Card import Card
 
 class Magical(ABC):
     def __init__(self, mana: int) -> None:
-        self._mana: int = mana
-        self._max_mana: int = mana
+        self.mana: int = mana
+        self.max_mana: int = mana
 
     @abstractmethod
     def cast_spell(

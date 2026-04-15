@@ -22,7 +22,7 @@ def main() -> None:
     print("Simulating aggressive turn...")
     deck = factory.create_themed_deck(3)
     cards = deck.get("cards", [])
-    print(f"Hand: {[c._name + ' (' + str(c._cost) + ')' for c in cards]}\n")
+    print(f"Hand: {[c.name + ' (' + str(c.cost) + ')' for c in cards]}\n")
 
     turn_result = engine.simulate_turn()
 

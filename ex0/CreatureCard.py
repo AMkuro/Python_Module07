@@ -16,16 +16,16 @@ class CreatureCard(Card):
             raise ValueError(
                 f"health must be a positive integer, got {health}"
             )
-        self._attack: int = attack
-        self._health: int = health
+        self.attack_power: int = attack
+        self.health: int = health
 
     def get_card_info(self) -> dict[str, Any]:
         base = super().get_card_info()
         return {
             **base,
             "type": "Creature",
-            "attack": self._attack,
-            "health": self._health,
+            "attack": self.attack_power,
+            "health": self.health,
         }
 
     def play(self, game_state: dict[str, Any]) -> dict[str, Any]:
@@ -36,8 +36,8 @@ class CreatureCard(Card):
     def attack_target(self, target: Card) -> dict[str, Any]:
         target_info = target.get_card_info()
         return {
-            "attacker": self._name,
+            "attacker": self.name,
             "target": target_info["name"],
-            "damage_dealt": self._attack,
+            "damage_dealt": self.attack_power,
             "combat_resolved": True,
         }

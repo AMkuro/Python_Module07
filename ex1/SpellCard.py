@@ -34,10 +34,10 @@ class SpellCard(Card):
 
     def _get_effect_description(self) -> str:
         effect_messages = {
-            EffectType.DAMAGE: f"Deal {self._cost} damage to target",
-            EffectType.HEAL: f"Heal {self._cost} health",
-            EffectType.BUFF: f"Buff target by {self._cost}",
-            EffectType.DEBUFF: f"Debuff target by {self._cost}",
+            EffectType.DAMAGE: f"Deal {self.cost} damage to target",
+            EffectType.HEAL: f"Heal {self.cost} health",
+            EffectType.BUFF: f"Buff target by {self.cost}",
+            EffectType.DEBUFF: f"Debuff target by {self.cost}",
         }
         return effect_messages.get(
             self._effect_type,
@@ -46,7 +46,7 @@ class SpellCard(Card):
 
     def resolve_effect(self, targets: list[Any]) -> dict[str, Any]:
         return {
-            "spell": self._name,
+            "spell": self.name,
             "effect_type": self._effect_type.value,
             "targets": targets,
             "resolved": True,

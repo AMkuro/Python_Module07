@@ -4,9 +4,9 @@ from typing import Any
 
 class Combatable(ABC):
     def __init__(self, attack: int, health: int) -> None:
-        self._attack: int = attack
-        self._health: int = health
-        self._max_health: int = health
+        self.attack_power: int = attack
+        self.health: int = health
+        self.max_health: int = health
 
     @abstractmethod
     def attack(self, target: Any) -> dict[str, Any]:

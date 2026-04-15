@@ -1,6 +1,4 @@
-from ex0.Card import Card, Rarity
-from ex2.Combatable import Combatable
-from ex4.Rankable import Rankable
+from ex0.Card import Rarity
 from ex4.TournamentCard import TournamentCard
 from ex4.TournamentPlatform import TournamentPlatform
 
@@ -31,17 +29,20 @@ def main() -> None:
     )
     wizard_id = platform.register_card(ice_wizard)
 
-    print(f"{fire_dragon._name} (ID: {dragon_id}):")
-    interfaces = [Card, Combatable, Rankable]
+    fire_rank_info = fire_dragon.get_rank_info()
+    ice_rank_info = ice_wizard.get_rank_info()
+
+    print(f"{fire_dragon.name} (ID: {dragon_id}):")
+    interfaces = TournamentCard.__bases__
     interfaces_display = "[" + ", ".join(c.__name__ for c in interfaces) + "]"
     print(f"- Interfaces: {interfaces_display}")
-    print(f"- Rating: {fire_dragon.calculate_rating()}")
-    print(f"- Record: {fire_dragon._wins}-{fire_dragon._losses}\n")
+    print(f"- Rating: {fire_rank_info['rating']}")
+    print(f"- Record: {fire_rank_info['record']}\n")
 
-    print(f"{ice_wizard._name} (ID: {wizard_id}):")
+    print(f"{ice_wizard.name} (ID: {wizard_id}):")
     print(f"- Interfaces: {interfaces_display}")
-    print(f"- Rating: {ice_wizard.calculate_rating()}")
-    print(f"- Record: {ice_wizard._wins}-{ice_wizard._losses}\n")
+    print(f"- Rating: {ice_rank_info['rating']}")
+    print(f"- Record: {ice_rank_info['record']}\n")
 
     print("Creating tournament match...")
     match_result = platform.create_match(dragon_id, wizard_id)

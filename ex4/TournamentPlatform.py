@@ -10,7 +10,7 @@ class TournamentPlatform:
         self._type_counters: dict[str, int] = {}
 
     def register_card(self, card: TournamentCard) -> str:
-        last_word = card._name.split()[-1].lower()
+        last_word = card.name.split()[-1].lower()
         count = self._type_counters.get(last_word, 0) + 1
         self._type_counters[last_word] = count
         card_id = f"{last_word}_{count:03d}"
@@ -23,20 +23,35 @@ class TournamentPlatform:
 
         card1 = self._cards[card1_id]
         card2 = self._cards[card2_id]
-
-        card1_damage = getattr(card1, "_attack", 0)
-        card2_damage = getattr(card2, "_attack", 0)
-
-        if card1_damage > card2_damage:
-            winner_id = card1_id
-            loser_id = card2_id
-            winner = card1
-            loser = card2
+        comparison = card1.compare_to(card2)
+        if comparison > 0:
+            winner_id, winner, loser_id, loser = (
+                card1_id,
+                card1,
+                card2_id,
+                card2,
+            )
+        elif comparison < 0:
+            winner_id, winner, loser_id, loser = (
+                card2_id,
+                card2,
+                card1_id,
+                card1,
+            )
+        elif card1_id <= card2_id:
+            winner_id, winner, loser_id, loser = (
+                card1_id,
+                card1,
+                card2_id,
+                card2,
+            )
         else:
-            winner_id = card2_id
-            loser_id = card1_id
-            winner = card2
-            loser = card1
+            winner_id, winner, loser_id, loser = (
+                card2_id,
+                card2,
+                card1_id,
+                card1,
+            )
 
         winner.update_wins(1)
         loser.update_losses(1)
@@ -56,7 +71,7 @@ class TournamentPlatform:
             rank_info = card.get_rank_info()
             rating = rank_info["rating"]
             record = rank_info["record"]
-            leaderboard.append((card_id, card._name, rating, record))
+            leaderboard.append((card_id, rank_info["name"], rating, record))
 
         def sort_by_rating(
             entry: tuple[str, str, int, str]

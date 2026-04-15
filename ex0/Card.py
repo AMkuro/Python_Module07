@@ -12,31 +12,31 @@ class Rarity(Enum):
 
 class Card(ABC):
     def __init__(self, name: str, cost: int, rarity: Rarity) -> None:
-        self._name: str = name
-        self._cost: int = cost
-        self._rarity: Rarity = rarity
+        self.name: str = name
+        self.cost: int = cost
+        self.rarity: Rarity = rarity
 
     @abstractmethod
     def play(self, game_state: dict[str, Any]) -> dict[str, Any]:
         available_mana = game_state.get("mana", 0)
         if not self.is_playable(available_mana):
             raise ValueError(
-                f"Not enough mana to play {self._name}"
-                f" (cost: {self._cost}, available: {available_mana})"
+                f"Not enough mana to play {self.name}"
+                f" (cost: {self.cost}, available: {available_mana})"
             )
         self.result_dict: dict[str, Any] = {}
         result_dict: dict[str, Any] = {
-            "card_played": self._name,
-            "mana_used": self._cost,
+            "card_played": self.name,
+            "mana_used": self.cost,
         }
         return result_dict
 
     def get_card_info(self) -> dict[str, Any]:
         return {
-            "name": self._name,
-            "cost": self._cost,
-            "rarity": self._rarity.value,
+            "name": self.name,
+            "cost": self.cost,
+            "rarity": self.rarity.value,
         }
 
     def is_playable(self, available_mana: int) -> bool:
-        return self._cost <= available_mana
+        return self.cost <= available_mana

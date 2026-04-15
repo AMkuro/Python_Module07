@@ -1,10 +1,13 @@
 from typing import Any
 
+from ex0.Card import Card
 from ex3.CardFactory import CardFactory
 from ex3.GameStrategy import GameStrategy
 
 
 class GameEngine:
+    _DEFAULT_DECK_SIZE: int = 3
+
     def __init__(self) -> None:
         self._factory: CardFactory | None = None
         self._strategy: GameStrategy | None = None
@@ -23,7 +26,7 @@ class GameEngine:
         if self._factory is None or self._strategy is None:
             return {"error": "Engine not configured"}
 
-        deck = self._factory.create_themed_deck(3)
+        deck = self._factory.create_themed_deck(self._DEFAULT_DECK_SIZE)
         cards = deck.get("cards", [])
 
         turn_result = self._strategy.execute_turn(cards, self._battlefield)
@@ -33,7 +36,11 @@ class GameEngine:
         damage = turn_result.get("damage_dealt", 0)
         self._total_damage += damage
 
-        self._battlefield.extend(cards)
+        played_cards = turn_result.get("played_cards", [])
+        persistent_cards = [
+            card for card in played_cards if self._is_persistent_card(card)
+        ]
+        self._battlefield.extend(persistent_cards)
 
         threat_level = turn_result.get("battlefield_threats", 0)
         aggression = turn_result.get("aggression_level", "low")
@@ -43,9 +50,7 @@ class GameEngine:
             "actions": {
                 "cards_played": turn_result.get("cards_played", []),
                 "mana_used": turn_result.get("mana_used", 0),
-                "targets_attacked": turn_result.get(
-                    "targets_attacked", []
-                ),
+                "targets_attacked": turn_result.get("targets_attacked", []),
                 "damage_dealt": damage,
             },
             "battlefield_analysis": {
@@ -65,3 +70,9 @@ class GameEngine:
             "total_damage": self._total_damage,
             "cards_created": self._cards_created,
         }
+
+    @staticmethod
+    def _is_persistent_card(card: Any) -> bool:
+        if not isinstance(card, Card):
+            return False
+        return card.get_card_info().get("type") != "Spell"
